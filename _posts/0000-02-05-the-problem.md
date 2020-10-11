@@ -38,20 +38,18 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
 
 ## A Bug in someone else's code
 
-<!-- .slide: data-transition="slide-in none-out" -->
 <img
      src="images/pandas-agg-docs.png"
      alt="The documentation for DataFrame.agg, demonstrating that it accepts *args."
+     class="disappearing-fragment fragment fade-out"
+     data-fragment-index="0"
      />
 
---
-
-## A Bug in someone else's code
-
-<!-- .slide: data-transition="none-in slide-out" -->
 <img
      src="images/pandas-agg-docs-proof.png"
      alt="The documentation for DataFrame.agg with the *args section boxed in red and the word Proof!!!1one in Comic Sans next to it."
+     class="nospace-fragment fragment none"
+     data-fragment-index="0"
      />
 
 --
