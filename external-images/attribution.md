@@ -10,9 +10,14 @@ under [CC BY
 
 - {photo-name}: [Photo title](https://url) by [Author](author-url) is licensed under [CC BY 2.0](https://creativecommons.org/licenses/by/2.0)
 
+## Unsplash license
 
-## Public Domain or CC-0
+Unsplash has a weird crayon license: https://unsplash.com/license. If you are concerned about this, you should probably strip all these photos and their derivatives from the talks.
+
 - `kelly-sikkema-girl-at-tablet.jpg`: Photo by [Kelly
 Sikkema](https://unsplash.com/@kellysikkema)
 on
 [Unsplash](https://unsplash.com/photos/CbZC2KVnK8s)
+
+## Public Domain or CC-0
+-
