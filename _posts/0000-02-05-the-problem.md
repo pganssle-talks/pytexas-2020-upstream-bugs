@@ -33,3 +33,23 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
            _aggregate() got multiple values for argument 'axis'
 ```
 <!-- .element class="fragment" data-fragment-index="0" -->
+
+--
+
+## A Bug in someone else's code
+
+<!-- .slide: data-transition="slide-in none-out" -->
+<img
+     src="images/pandas-agg-docs.png"
+     alt="The documentation for DataFrame.agg, demonstrating that it accepts *args."
+     />
+
+--
+
+## A Bug in someone else's code
+
+<!-- .slide: data-transition="none-in slide-out" -->
+<img
+     src="images/pandas-agg-docs-proof.png"
+     alt="The documentation for DataFrame.agg with the *args section boxed in red and the word Proof!!!1one in Comic Sans next to it."
+     />
