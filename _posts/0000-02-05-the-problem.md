@@ -53,3 +53,30 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
      src="images/pandas-agg-docs-proof.png"
      alt="The documentation for DataFrame.agg with the *args section boxed in red and the word Proof!!!1one in Comic Sans next to it."
      />
+
+--
+
+## The Right Thing To Do™
+
+- File an issue upstream<br/>
+- Submit a patch to fix the issue upstream <!-- .element class="fragment" data-fragment-index="1" -->
+- Wait for release <!-- .element class="fragment" data-fragment-index="2" -->
+- Update your version <!-- .element class="fragment" data-fragment-index="3" -->
+
+<img
+    src="images/pandas-agg-issue.png"
+    alt="Pandas issue #36948: Dataframe.agg no longer accepts positional arguments as of v1.1.0"
+    class="disappearing-fragment fragment fade-out"
+    data-fragment-index="1"
+    />
+<img
+    src="images/pandas-agg-pr.png"
+    alt="Pandas PR #36950: Allow positional arguments in DataFrame.agg"
+    class="disappearing-fragment fragment fade-in"
+    data-fragment-index="1"
+    />
+<img
+    src="images/pandas-whatsnew-114.png"
+    alt="What's new in 1.1.4: Changelog including the DataFrame.agg change for 1.1.4, with no specified release date."
+    class="fragment fade-in"
+    data-fragment-index="2" />
