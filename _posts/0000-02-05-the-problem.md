@@ -70,13 +70,13 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
 <img
     src="images/pandas-agg-pr.png"
     alt="Pandas PR #36950: Allow positional arguments in DataFrame.agg"
-    class="disappearing-fragment fragment fade-in"
+    class="nospace-fragment disappearing-fragment fragment fade-in"
     data-fragment-index="1"
     />
 <img
     src="images/pandas-whatsnew-114.png"
     alt="What's new in 1.1.4: Changelog including the DataFrame.agg change for 1.1.4, with no specified release date."
-    class="fragment fade-in"
+    class="nospace-fragment fragment fade-in"
     data-fragment-index="2" />
 
 --
@@ -97,6 +97,6 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
 <img
     src="images/python-annual-release-cycle.png"
     alt="PEP 602: Annual Release Cycle for Python"
-    class = "fragment fade-in"
+    class = "nospace-fragment fragment fade-in"
     data-fragment-index="0"
     />
