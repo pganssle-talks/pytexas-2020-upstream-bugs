@@ -80,3 +80,25 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
     alt="What's new in 1.1.4: Changelog including the DataFrame.agg change for 1.1.4, with no specified release date."
     class="fragment fade-in"
     data-fragment-index="2" />
+
+--
+
+## What can go wrong?
+
+- Production deadlines
+- Long upstream release cycles
+- Long deployment cycles in-house
+
+<img src="images/demo-friday.png"
+    alt = "A child at a tablet looking tired with a thought bubble that says, 'But the demo is on Friday!"
+    class = "disappearing-fragment fragment fade-out"
+    id = "splash"
+    style="max-width: 800px"
+    data-fragment-index="0"
+    />
+<img
+    src="images/python-annual-release-cycle.png"
+    alt="PEP 602: Annual Release Cycle for Python"
+    class = "fragment fade-in"
+    data-fragment-index="0"
+    />
