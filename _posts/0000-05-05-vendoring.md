@@ -1,7 +1,8 @@
 # Vendoring
 
-What is vendoring?
+What is vendoring? <!-- .element: class="not-centered" style="width: 95%; font-weight: bold" -->
 
+<div style="height: 600px" data-fragment-index="0" class="disappearing-fragment fade-out"/>
 <img
     id="splash"
     src="images/webster-vendoring.png"
@@ -52,32 +53,37 @@ setuptools/_vendor/
 --
 
 # How to vendor a package
-
+<br/>
 1. Copy the source code into your project tree somewhere (e.g. under `_vendored`).
 2. Change references from `the_package` to `my_project._vendored.the_package`.
-3. Apply any patches to your local copy. <!-- .element class="fragment" -->
-<br/>
+3. Apply any patches to your local copy. <!-- .element class="fragment" data-fragment-index="0" -->
 
-## Advantages
 <br/>
-- No chance that your hack will break if the dependency is upgraded.
-- Scoped to your package only — no modifying of globals.
-- Allows two packages to use otherwise incompatible versions of a shared dependency.
+## Advantages <!-- .element class="fragment" data-fragment-index="1" -->
+<br/>
+- No chance that your hack will break if the dependency is upgraded.<!-- .element class="fragment" data-fragment-index="1" -->
+- Scoped to your package only — no modifying of globals.<!-- .element class="fragment" data-fragment-index="1" -->
+- Allows two packages to use otherwise incompatible versions of a shared dependency.<!-- .element class="fragment" data-fragment-index="1" -->
 
 --
 
+<!-- .slide: class="not-centered" -->
 # Maintaining the source code
+<br/>
+<br/>
 
 1. Git: Subtree merges strategy¹
-2. Git: `git subtree` (or `git submodule` + a patch step during build)
+2. Git: `git subtree` (or `git submodule` + a patch step during build)²
 3. Find an existing tool, e.g. [`vendoring`](https://pypi.org/project/vendoring/)
 4. Cobble something together out of bash scripts
 
-¹ https://docs.github.com/en/free-pro-team@latest/github/using-git/about-git-subtree-merges
+<br/><br/>
+¹ https://docs.github.com/en/free-pro-team@latest/github/using-git/about-git-subtree-merges <br/>
 ² https://opensource.com/article/20/5/git-submodules-subtrees
 
 --
 
+<!-- .slide: class="not-centered" -->
 # Cautions
 
 Reference to the package's top-level name within the vendored package will still hit the global package:
@@ -92,8 +98,17 @@ def destroy_world(world, start_magnitude=None):
     while magnitude < WORLD_DESTROYING_MAGNITUDE:
         magnitude.increase(1)
 ```
+<br/>
 
-Note that `squalene.magnitude.Magnitude` is not the same class as `myproject._vendored.squalene.magnitude.Magnitude`! The comparison will likely fail.
+**Caution:**
+
+```
+>>> import squalene
+>>> import myproject
+>>> squalene.magnitude.Magnitude is myproject._vendored.squalene.magnitude.Magnitude
+False
+```
+<br/>
 
 Solving this may require one of:
 
@@ -114,9 +129,16 @@ Solving this may require one of:
 
 # Real-life examples
 
-- This talk! `reveal.js` and `jekyll-revealjs` are vendored into the source.
+- This talk!
+    - `reveal.js` and `jekyll-revealjs` are vendored into the source.
+    <span class="disappearing-fragment fragment fade-out" data-fragment-index="0"><br/><br/></span>
+    - <!-- .element class="nospace-fragment fragment" data-fragment-index="0" --> `jekyll-reveal` even carries a patch! 🤦<br/><br/>
 - `pip` and `setuptools` vendor all their dependencies to avoid bootstrapping issues.
+    - Both have a "no patches in tree" policy.
+    - Manipulates namespace resolution to get name resolution to work.<br/><br/>
+
 - `invoke` vendors all its dependencies (including separate Python 2 and 3 trees for `pyyaml`)
+    - No dependencies have been updated in >= 4 years ☹
 
 Notes:
 
