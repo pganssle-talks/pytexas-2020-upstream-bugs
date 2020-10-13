@@ -8,6 +8,7 @@
 />
 
 --
+
 # Intro to Monkey Patching
 
 ```python
