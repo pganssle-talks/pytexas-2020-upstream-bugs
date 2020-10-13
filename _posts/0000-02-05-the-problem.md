@@ -15,7 +15,7 @@ print(df.agg(f, 0, 3))
 Running this fails with <tt>pandas == 1.1.3</tt>:
 </span>
 
-```none
+```bash
 $ python pandas_example.py
 Traceback (most recent call last):
   File ".../pandas/core/frame.py", line 7362, in aggregate
