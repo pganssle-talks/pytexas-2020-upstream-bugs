@@ -109,3 +109,17 @@ Solving this may require one of:
 - Hard to maintain.
 - Has a tendency to be leaky in one way or another (import system wasn't really built with this in mind).
 - Doesn't work well for any dependency that is part of the public API.
+
+--
+
+# Real-life examples
+
+- This talk! `reveal.js` and `jekyll-revealjs` are vendored into the source.
+- `pip` and `setuptools` vendor all their dependencies to avoid bootstrapping issues.
+- `invoke` vendors all its dependencies (including separate Python 2 and 3 trees for `pyyaml`)
+
+Notes:
+
+This talk's repo carries at least one patch in `jekyll-revealjs` that I haven't had time to try and upstream. I have also removed some patches that were accepted upstream.
+
+`pip` and `setuptools` both have policies that fixes must be done upstream, but `pip` does do things like only partially vendor `setuptools`. Both use spooky namespace manipulation to get the name resolution to work — and their solutions are not compatible with one another!

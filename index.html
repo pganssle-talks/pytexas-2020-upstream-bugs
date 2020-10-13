@@ -369,6 +369,21 @@ else:
 print(dataframe_agg(df, f, 1, 3))
 ```
 
+--
+
+# Real-life Examples
+
+1. `six`: Pretty much all wrapper functions to write code that works with Python 2 and 3.
+
+<img
+    src="images/six-top-10.png"
+    alt="An image from pypistats.org showing Most Downloaded PyPI Packages. urllib3 is first with 3.2M/day and six is second with 2.9M/day."
+/>
+
+2. [`pytz-deprecation-shim`](https://pytz-deprecation-shim.readthedocs.io/en/latest/): Wrapper classes that mimic `pytz`'s interface but use `zoneinfo` and `dateutil` under the hood, for helping to migrate off `pytz`.
+
+3. Feature backports like `importlib_resources` and most things in the `backports` namespace.
+
 					</script>
 				</section>
 				
@@ -536,6 +551,41 @@ def affected_function():
     ...
 ```
 
+--
+
+# Real-life examples
+
+- `setuptools` extensively patches `distutils` on import 
+
+```python
+def patch_all():
+    # we can't patch distutils.cmd, alas
+    distutils.core.Command = setuptools.Command
+
+    has_issue_12885 = sys.version_info <= (3, 5, 3)
+
+    if has_issue_12885:
+        # fix findall bug in distutils (http://bugs.python.org/issue12885)
+        distutils.filelist.findall = setuptools.findall
+
+    needs_warehouse = (
+        sys.version_info < (2, 7, 13)
+        or
+        (3, 4) < sys.version_info < (3, 4, 6)
+        or
+        (3, 5) < sys.version_info <= (3, 5, 3)
+    )
+
+    if needs_warehouse:
+        warehouse = 'https://upload.pypi.org/legacy/'
+        distutils.config.PyPIRCCommand.DEFAULT_REPOSITORY = warehouse
+    ...
+```
+
+- ...and `pip` invokes the monkey patch even if you don't import `setuptools`!
+
+_*Note:* This was expedient at the time, but `setuptools` has been working to unravel this for years._
+
 					</script>
 				</section>
 				
@@ -652,6 +702,20 @@ Solving this may require one of:
 - Hard to maintain.
 - Has a tendency to be leaky in one way or another (import system wasn't really built with this in mind).
 - Doesn't work well for any dependency that is part of the public API.
+
+--
+
+# Real-life examples
+
+- This talk! `reveal.js` and `jekyll-revealjs` are vendored into the source.
+- `pip` and `setuptools` vendor all their dependencies to avoid bootstrapping issues.
+- `invoke` vendors all its dependencies (including separate Python 2 and 3 trees for `pyyaml`)
+
+Notes:
+
+This talk's repo carries at least one patch in `jekyll-revealjs` that I haven't had time to try and upstream. I have also removed some patches that were accepted upstream.
+
+`pip` and `setuptools` both have policies that fixes must be done upstream, but `pip` does do things like only partially vendor `setuptools`. Both use spooky namespace manipulation to get the name resolution to work — and their solutions are not compatible with one another!
 
 					</script>
 				</section>
@@ -786,6 +850,25 @@ For more details, refer to https://raphaelhertzog.com/go/quilt
 - You are maintaining a fork that upstream doesn't know about.
 - Updating all your patches adds friction to the upgrade process.
 - No guarantees of compatibility.
+
+--
+
+# Real-life Examples
+
+- Nearly every Linux distro, either heavily (e.g. Debian) or lightly (e.g. Arch)
+- `conda` and `conda-forge` packages
+- Most big companies
+
+## Success story
+
+<img
+    src="images/attrs-zope.png"
+    alt="A Github PR making zope a semi-optional test dependency for attrs"
+    />
+
+Notes:
+
+At work I've been trying to keep `attrs` up-to-date, but it carried a few patches that were a bit annoying to fix every time. Nothing major, but I was able to get most of them removed except one where we disabled all `zope`-related tests because we don't use `zope` and packaging `zope` just to test that `attrs` works with `zope` would be ridiculous. I made a PR adding a mechanism for disabling `zope` directly in `attrs`'s test suite and to my surprise Hynek accepted it, so I was able to remove my last `attrs` patch!
 
 					</script>
 				</section>

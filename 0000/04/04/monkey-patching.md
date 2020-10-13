@@ -159,3 +159,38 @@ def f():
 def affected_function():
     ...
 ```
+
+--
+
+# Real-life examples
+
+- `setuptools` extensively patches `distutils` on import 
+
+```python
+def patch_all():
+    # we can't patch distutils.cmd, alas
+    distutils.core.Command = setuptools.Command
+
+    has_issue_12885 = sys.version_info <= (3, 5, 3)
+
+    if has_issue_12885:
+        # fix findall bug in distutils (http://bugs.python.org/issue12885)
+        distutils.filelist.findall = setuptools.findall
+
+    needs_warehouse = (
+        sys.version_info < (2, 7, 13)
+        or
+        (3, 4) < sys.version_info < (3, 4, 6)
+        or
+        (3, 5) < sys.version_info <= (3, 5, 3)
+    )
+
+    if needs_warehouse:
+        warehouse = 'https://upload.pypi.org/legacy/'
+        distutils.config.PyPIRCCommand.DEFAULT_REPOSITORY = warehouse
+    ...
+```
+
+- ...and `pip` invokes the monkey patch even if you don't import `setuptools`!
+
+_*Note:* This was expedient at the time, but `setuptools` has been working to unravel this for years._
