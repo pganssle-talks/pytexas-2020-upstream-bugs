@@ -186,3 +186,7 @@ print(dataframe_agg(df, f, 1, 3))
 3. Feature backports
     - `importlib_resources`
     - Most things in the `backports` namespace.
+
+Notes:
+
+**Switch camera during transition**
