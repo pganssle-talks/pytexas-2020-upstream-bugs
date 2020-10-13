@@ -126,3 +126,22 @@ For more details, refer to https://raphaelhertzog.com/go/quilt
 - You are maintaining a fork that upstream doesn't know about.
 - Updating all your patches adds friction to the upgrade process.
 - No guarantees of compatibility.
+
+--
+
+# Real-life Examples
+
+- Nearly every Linux distro, either heavily (e.g. Debian) or lightly (e.g. Arch)
+- `conda` and `conda-forge` packages
+- Most big companies
+
+## Success story
+
+<img
+    src="images/attrs-zope.png"
+    alt="A Github PR making zope a semi-optional test dependency for attrs"
+    />
+
+Notes:
+
+At work I've been trying to keep `attrs` up-to-date, but it carried a few patches that were a bit annoying to fix every time. Nothing major, but I was able to get most of them removed except one where we disabled all `zope`-related tests because we don't use `zope` and packaging `zope` just to test that `attrs` works with `zope` would be ridiculous. I made a PR adding a mechanism for disabling `zope` directly in `attrs`'s test suite and to my surprise Hynek accepted it, so I was able to remove my last `attrs` patch!
