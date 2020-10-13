@@ -119,3 +119,10 @@ https://raphaelhertzog.com/go/quilt
 
 For more details, refer to https://raphaelhertzog.com/go/quilt
 
+--
+
+# Downsides
+
+- You are maintaining a fork that upstream doesn't know about.
+- Updating all your patches adds friction to the upgrade process.
+- No guarantees of compatibility.
