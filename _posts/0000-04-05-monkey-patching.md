@@ -42,6 +42,7 @@ Affects anyone using the namespace:
 --
 
 # How does this help us?
+<br/>
 
 ```python
 from functools import wraps
@@ -59,9 +60,12 @@ if _has_pandas_bug():
 
     pd.DataFrame.agg = dataframe_agg
 ```
+<br/>
+<br/>
 
 - Fixes the issue globally and transparently.
 - May fix the issue in *other* code you don't control.
+<br/>
 
 --
 
@@ -130,7 +134,8 @@ Mind your namespaces!
 --
 
 # Scope as tightly as possible
-
+<!-- .slide: class="not-centered" -->
+<br/>
 If you only need the patch to apply to your code, use a context manager:
 
 ```python
@@ -192,5 +197,7 @@ def patch_all():
 ```
 
 - ...and `pip` invokes the monkey patch even if you don't import `setuptools`!
+<br/>
+<br/>
 
-_*Note:* This was expedient at the time, but `setuptools` has been working to unravel this for years._
+_**Take Heed:** This was expedient at the time, but `setuptools` has been working to unravel this for years._
