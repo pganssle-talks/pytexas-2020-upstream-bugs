@@ -42,6 +42,7 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
      src="images/pandas-agg-docs.png"
      alt="The documentation for DataFrame.agg, demonstrating that it accepts *args."
      class="disappearing-fragment fragment fade-out"
+     style="height:600px"
      data-fragment-index="0"
      />
 
@@ -49,6 +50,7 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
      src="images/pandas-agg-docs-proof.png"
      alt="The documentation for DataFrame.agg with the *args section boxed in red and the word Proof!!!1one in Comic Sans next to it."
      class="nospace-fragment fragment none"
+     style="height:600px"
      data-fragment-index="0"
      />
 
