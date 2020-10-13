@@ -58,9 +58,9 @@ Paul Ganssle
 <br/>
 <span style="font-size: 1em;"><em>This talk on Github:
 <a href="https://github.com/pganssle-talks/pytexas-2020-upstream-bugs">pganssle-talks/pytexas-2020-upstream-bugs</a></em>
-</span>
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-    <img src="external-images/logos/cc-by.svg" height="45px">
+</span><br/>
+<a rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/">
+    <img src="external-images/logos/cc-zero.svg" height="45px">
 </a>
 <br/>
 
@@ -72,18 +72,16 @@ So good to be here in beautiful *checks notes* Austin, Texas!
 
 --
 
-<span style="font-size: 1em;"><em>⚠️ Warning ⚠️</em></span>
+<h1><span class="emoji">⚠️</span> Warning <span class="emoji">⚠️</span></h1>
 
 <img id="splash"
      src="images/nails-scaled.jpg"
      alt="A nail partially driven into a piece of wood"
-     style="max-height: 300px"
-     />
-
-<img id="splash"
+     style="max-height: 300px; margin-bottom:0px; margin-top:0px"
+     /><br/><img id="splash"
      src="images/hammerlike-scaled.jpg"
      alt="A series of decreasingly hammer-like objects: A hammer, an axe, a bottle of maple syrup and a can of butane fuel."
-     style="max-height: 550px"
+     style="max-height: 550px; margin-top: 0px; margin-bottom: 0px"
      />
 
 
@@ -115,7 +113,7 @@ print(df.agg(f, 0, 3))
 Running this fails with <tt>pandas == 1.1.3</tt>:
 </span>
 
-```none
+```bash
 $ python pandas_example.py
 Traceback (most recent call last):
   File ".../pandas/core/frame.py", line 7362, in aggregate
@@ -142,6 +140,7 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
      src="images/pandas-agg-docs.png"
      alt="The documentation for DataFrame.agg, demonstrating that it accepts *args."
      class="disappearing-fragment fragment fade-out"
+     style="height:600px"
      data-fragment-index="0"
      />
 
@@ -149,6 +148,7 @@ TypeError: DataFrame constructor called with incompatible data and dtype:
      src="images/pandas-agg-docs-proof.png"
      alt="The documentation for DataFrame.agg with the *args section boxed in red and the word Proof!!!1one in Comic Sans next to it."
      class="nospace-fragment fragment none"
+     style="height:600px"
      data-fragment-index="0"
      />
 
@@ -272,6 +272,7 @@ You can say that you'll eventually go remove all the hacks, but just in case, yo
 --
 
 # Opportunistic upgrading
+<br/><br/>
 
 ```python
 def dataframe_agg(df, func, axis=0, *args, **kwargs):
@@ -295,7 +296,7 @@ Hack is only triggered if you otherwise would have triggered the bug!
 --
 
 # Opportunistic upgrading
-
+<br/>
 ## By feature detection
 ```python
 import functools
@@ -345,6 +346,7 @@ Pros for feature detection:
 --
 
 # Opportunistic upgrading at import time
+<br/>
 
 ```python
 if _has_pandas_bug():
@@ -375,14 +377,23 @@ print(dataframe_agg(df, f, 1, 3))
 
 1. `six`: Pretty much all wrapper functions to write code that works with Python 2 and 3.
 
-<img
+    <img
     src="images/six-top-10.png"
     alt="An image from pypistats.org showing Most Downloaded PyPI Packages. urllib3 is first with 3.2M/day and six is second with 2.9M/day."
+    style="display:block; margin-left: auto; margin-right: auto;"
 />
 
-2. [`pytz-deprecation-shim`](https://pytz-deprecation-shim.readthedocs.io/en/latest/): Wrapper classes that mimic `pytz`'s interface but use `zoneinfo` and `dateutil` under the hood, for helping to migrate off `pytz`.
+2. [`pytz-deprecation-shim`](https://pytz-deprecation-shim.readthedocs.io/en/latest/)
+    - Wrapper classes that mimic `pytz`'s interface
+    - Uses `zoneinfo` and `dateutil` under the hood
+    - No `pytz` dependency!
+    - For helping to migrate off `pytz`.
+    <br/>
+    <br/>
 
-3. Feature backports like `importlib_resources` and most things in the `backports` namespace.
+3. Feature backports
+    - `importlib_resources`
+    - Most things in the `backports` namespace.
 
 					</script>
 				</section>
@@ -433,6 +444,7 @@ Affects anyone using the namespace:
 --
 
 # How does this help us?
+<br/>
 
 ```python
 from functools import wraps
@@ -450,9 +462,12 @@ if _has_pandas_bug():
 
     pd.DataFrame.agg = dataframe_agg
 ```
+<br/>
+<br/>
 
 - Fixes the issue globally and transparently.
 - May fix the issue in *other* code you don't control.
+<br/>
 
 --
 
@@ -521,7 +536,8 @@ Mind your namespaces!
 --
 
 # Scope as tightly as possible
-
+<!-- .slide: class="not-centered" -->
+<br/>
 If you only need the patch to apply to your code, use a context manager:
 
 ```python
@@ -583,8 +599,10 @@ def patch_all():
 ```
 
 - ...and `pip` invokes the monkey patch even if you don't import `setuptools`!
+<br/>
+<br/>
 
-_*Note:* This was expedient at the time, but `setuptools` has been working to unravel this for years._
+_**Take Heed:** This was expedient at the time, but `setuptools` has been working to unravel this for years._
 
 					</script>
 				</section>
@@ -593,8 +611,9 @@ _*Note:* This was expedient at the time, but `setuptools` has been working to un
 					<script type="text/template">
 # Vendoring
 
-What is vendoring?
+What is vendoring? <!-- .element: class="not-centered" style="width: 95%; font-weight: bold" -->
 
+<div style="height: 600px" data-fragment-index="0" class="disappearing-fragment fade-out"/>
 <img
     id="splash"
     src="images/webster-vendoring.png"
@@ -645,32 +664,37 @@ setuptools/_vendor/
 --
 
 # How to vendor a package
-
+<br/>
 1. Copy the source code into your project tree somewhere (e.g. under `_vendored`).
 2. Change references from `the_package` to `my_project._vendored.the_package`.
-3. Apply any patches to your local copy. <!-- .element class="fragment" -->
-<br/>
+3. Apply any patches to your local copy. <!-- .element class="fragment" data-fragment-index="0" -->
 
-## Advantages
 <br/>
-- No chance that your hack will break if the dependency is upgraded.
-- Scoped to your package only — no modifying of globals.
-- Allows two packages to use otherwise incompatible versions of a shared dependency.
+## Advantages <!-- .element class="fragment" data-fragment-index="1" -->
+<br/>
+- No chance that your hack will break if the dependency is upgraded.<!-- .element class="fragment" data-fragment-index="1" -->
+- Scoped to your package only — no modifying of globals.<!-- .element class="fragment" data-fragment-index="1" -->
+- Allows two packages to use otherwise incompatible versions of a shared dependency.<!-- .element class="fragment" data-fragment-index="1" -->
 
 --
 
+<!-- .slide: class="not-centered" -->
 # Maintaining the source code
+<br/>
+<br/>
 
 1. Git: Subtree merges strategy¹
-2. Git: `git subtree` (or `git submodule` + a patch step during build)
+2. Git: `git subtree` (or `git submodule` + a patch step during build)²
 3. Find an existing tool, e.g. [`vendoring`](https://pypi.org/project/vendoring/)
 4. Cobble something together out of bash scripts
 
-¹ https://docs.github.com/en/free-pro-team@latest/github/using-git/about-git-subtree-merges
+<br/><br/>
+¹ https://docs.github.com/en/free-pro-team@latest/github/using-git/about-git-subtree-merges <br/>
 ² https://opensource.com/article/20/5/git-submodules-subtrees
 
 --
 
+<!-- .slide: class="not-centered" -->
 # Cautions
 
 Reference to the package's top-level name within the vendored package will still hit the global package:
@@ -685,8 +709,17 @@ def destroy_world(world, start_magnitude=None):
     while magnitude < WORLD_DESTROYING_MAGNITUDE:
         magnitude.increase(1)
 ```
+<br/>
 
-Note that `squalene.magnitude.Magnitude` is not the same class as `myproject._vendored.squalene.magnitude.Magnitude`! The comparison will likely fail.
+**Caution:**
+
+```
+>>> import squalene
+>>> import myproject
+>>> squalene.magnitude.Magnitude is myproject._vendored.squalene.magnitude.Magnitude
+False
+```
+<br/>
 
 Solving this may require one of:
 
@@ -707,9 +740,16 @@ Solving this may require one of:
 
 # Real-life examples
 
-- This talk! `reveal.js` and `jekyll-revealjs` are vendored into the source.
+- This talk!
+    - `reveal.js` and `jekyll-revealjs` are vendored into the source.
+    <span class="disappearing-fragment fragment fade-out" data-fragment-index="0"><br/><br/></span>
+    - <!-- .element class="nospace-fragment fragment" data-fragment-index="0" --> `jekyll-reveal` even carries a patch! <span class="emoji">🤦</span><br/><br/>
 - `pip` and `setuptools` vendor all their dependencies to avoid bootstrapping issues.
+    - Both have a "no patches in tree" policy.
+    - Manipulates namespace resolution to get name resolution to work.<br/><br/>
+
 - `invoke` vendors all its dependencies (including separate Python 2 and 3 trees for `pyyaml`)
+    - No dependencies have been updated in >= 4 years <span class="emoji">☹</span>
 
 Notes:
 
@@ -788,58 +828,60 @@ prepare() {
 --
 
 # Using `quilt`: Creating new patches
+<!-- .slide: class="not-centered" -->
 
 1. `cd` to the directory you are going to modify and use `quilt new` to create a patch
 
-```bash
-$ cd /tmp/attrs-20.2.0
-$ quilt new keywords.patch
-Patch patches/keywords.patch is now on top
-```
+    ```bash
+    $ cd /tmp/attrs-20.2.0
+    $ quilt new keywords.patch
+    Patch patches/keywords.patch is now on top
+    ```
 
 2. Add any files you want to change to the patch using `quilt add` or `quilt edit`
 
-```bash
-$ quilt add setup.py
-File setup.py added to patch patches/keywords.patch
-```
+    ```bash
+    $ quilt add setup.py
+    File setup.py added to patch patches/keywords.patch
+    ```
 
 3. Make the changes you care about:
 
-```bash
-$ sed -i 's/KEYWORDS =.*$/KEYWORDS = []/' setup.py
-```
+    ```bash
+    $ sed -i 's/KEYWORDS =.*$/KEYWORDS = []/' setup.py
+    ```
 
 4. Type `quilt refresh` to generate patches.
 
-```diff
-$ quilt refresh
-Refreshed patch patches/keywords.patch
-$ cat patches/keywords.patch
-Index: attrs-20.2.0/setup.py
-===================================================================
---- attrs-20.2.0.orig/setup.py
-+++ attrs-20.2.0/setup.py
-@@ -10,7 +10,7 @@ from setuptools import find_packages, se
- NAME = "attrs"
- PACKAGES = find_packages(where="src")
- META_PATH = os.path.join("src", "attr", "__init__.py")
--KEYWORDS = ["class", "attribute", "boilerplate"]
-+KEYWORDS = []
- PROJECT_URLS = {
-     "Documentation": "https://www.attrs.org/",
-     "Bug Tracker": "https://github.com/python-attrs/attrs/issues",
-```
+    ```diff
+    $ quilt refresh
+    Refreshed patch patches/keywords.patch
+    $ cat patches/keywords.patch
+    Index: attrs-20.2.0/setup.py
+    ===================================================================
+    --- attrs-20.2.0.orig/setup.py
+    \+++ attrs-20.2.0/setup.py
+    @@ -10,7 +10,7 @@ from setuptools import find_packages, se
+     NAME = "attrs"
+     PACKAGES = find_packages(where="src")
+     META_PATH = os.path.join("src", "attr", "__init__.py")
+    -KEYWORDS = ["class", "attribute", "boilerplate"]
+    \+KEYWORDS = []
+     PROJECT_URLS = {
+         "Documentation": "https://www.attrs.org/",
+         "Bug Tracker": "https://github.com/python-attrs/attrs/issues",
+    ```
 
-https://raphaelhertzog.com/go/quilt
+More details: https://raphaelhertzog.com/go/quilt
 
 --
 
 # Using `quilt`: Applying patches
+<br/>
 
-- Given an unpatched source code with a `patches/` directory, use `quilt push -a` to apply all patches (or `quilt push` to do them one at a time).
-- If you have a series of patches applied, use `quilt pop` to undo the patch at the top of the stack. (Or `quilt pop -a` to undo all patches).
-- To import an existing patch into a given directory, use `quilt import path/to/patch`.
+- Given an unpatched source code with a `patches/` directory, use `quilt push -a` to apply all patches (or `quilt push` to do them one at a time).<br/><br/>
+- If you have a series of patches applied, use `quilt pop` to undo the patch at the top of the stack. (Or `quilt pop -a` to undo all patches).<br/><br/>
+- To import an existing patch into a given directory, use `quilt import path/to/patch`.<br/><br/>
 
 For more details, refer to https://raphaelhertzog.com/go/quilt
 
@@ -847,23 +889,25 @@ For more details, refer to https://raphaelhertzog.com/go/quilt
 
 # Downsides
 
-- You are maintaining a fork that upstream doesn't know about.
-- Updating all your patches adds friction to the upgrade process.
-- No guarantees of compatibility.
+- You are maintaining a fork that upstream doesn't know about.<br/><br/>
+- Updating all your patches adds friction to the upgrade process.<br/><br/>
+- No guarantees of compatibility.<br/><br/>
 
 --
 
 # Real-life Examples
 
-- Nearly every Linux distro, either heavily (e.g. Debian) or lightly (e.g. Arch)
-- `conda` and `conda-forge` packages
-- Most big companies
+- Nearly every Linux distro, either heavily (e.g. Debian) or lightly (e.g. Arch).<br/><br/>
+- `conda` and `conda-forge` packages.<br/><br/>
+- Most big companies.<br/><br/>
 
-## Success story
+## <!-- .element class="fragment" data-fragment-index="0" --> Success story
 
 <img
     src="images/attrs-zope.png"
     alt="A Github PR making zope a semi-optional test dependency for attrs"
+    class="fragment"
+    data-fragment-index="0"
     />
 
 Notes:
@@ -876,67 +920,137 @@ At work I've been trying to keep `attrs` up-to-date, but it carried a few patche
 				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-notes="^Note:">
 					<script type="text/template">
 # Strategy Recap
+<style>
+.pro-header {
+    background-color: #4cc649;
+    padding-bottom:5px !important;
+}
 
-## Patching upstream 💖
+.con-header {
+    background-color: #f93232;
+    padding-bottom: 5px !important;
+}
 
-Pros:
-- You fix the bug for everyone
-- Nothing to maintain afterwards (for you...)
-- Improves your relationship with the maintainers of software you use (hopefully)
+div.procon-container {
+    display: flex;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
 
-Cons:
-- Delays!
-- You have to convince someone to accept your patch (or fix the bug)
+}
 
+div.pro-or-con-div {
+    width: 50%
+}
+</style>
 
-## Wrapper functions 🆗
+## Patching upstream <span class="emoji">💖</span>
 
-Pros:
-- Helps maintain cross-version compatibility
-- Easy to remove when the need is done
-- Can opportunistically upgrade
-- Can roll out immediately
+<div class="procon-container">
+<div class="pro-or-con-div">
 
-Cons:
-- Only works when it's possible to work around the bug.
-- Only works for the code you are currently writing.
+<h4 class="pro-header">Pros:</h4>
+<ul>
+<li> You fix the bug for everyone</li>
+<li> Nothing to maintain afterwards (for you...)</li>
+<li> Improves your relationship with the maintainers of software you use (hopefully)</li>
+</ul>
+</div>
+<div class="pro-or-con-div">
+<h4 class="con-header">Cons:</h4>
+<ul>
+    <li>Delays!</li>
+    <li>You have to convince someone to accept your patch (or fix the bug)</li>
+</ul>
+</div>
+</div>
+
+<br/><br/>
+
+## Wrapper functions <span class="emoji">🆗</span>
+
+<div class="procon-container">
+<div class="pro-or-con-div">
+<h4 class="pro-header">Pros:</h4>
+<ul>
+    <li>Helps maintain cross-version compatibility</li>
+    <li>Easy to remove when the need is done</li>
+    <li>Can opportunistically upgrade</li>
+    <li>Can roll out immediately</li>
+</ul>
+</div>
+<div class="pro-or-con-div">
+<h4 class="con-header">Cons:</h4>
+<ul>
+    <li>Only works when it's possible to work around the bug.</li>
+    <li>Only works for the code you are currently writing.</li>
+</ul>
+</div>
 
 --
 
-# Strategy Recap
+## Monkey patching <span class="emoji">🙈</span>
 
-## Monkey patching 🙈
+<div class="procon-container">
+<div class="pro-or-con-div">
+<h4 class="pro-header">Pros:</h4>
+<ul>
+    <li>Make targeted global fixes.</li>
+    <li>Doesn't complicate packaging or deployment.</li>
+</ul>
+</div>
+<div class="pro-or-con-div">
+<h4 class="con-header">Cons:</h4>
+<ul>
+    <li>Hard to reason about.</li>
+    <li>Not likely to be compatible across versions.</li>
+    <li>Can cause compatibility problems with other users of the same library.</li>
+</ul>
+</div>
+</div>
 
-Pros:
-- Make targeted global fixes.
-- Doesn't complicate packaging or deployment.
+## Vendoring <span class="emoji">☣️</span>
 
-Cons:
-- Hard to reason about.
-- Not likely to be compatible across versions.
-- Can cause compatibility problems with other users of the same library.
+<div class="procon-container">
+<div class="pro-or-con-div">
+<h4 class="pro-header">Pros:</h4>
+<ul>
+    <li>Can unblock dependency resolution issues.</li>
+    <li>Isolates any changes from the wider system.</li>
+</ul>
+</div>
 
-## Vendoring ☣️
+<div class="pro-or-con-div">
+<h4 class="con-header">Cons:</h4>
+<ul>
+    <li>Complicated to implement right.</li>
+    <li>Doesn't work well when the vendored package is part of your public interface.</li>
+    <li>Tooling support is very weak.</li>
+</ul>
+</div>
+</div>
 
-Pros:
-- Can unblock dependency resolution issues.
-- Isolates any changes from the wider system.
+## Maintaining a fork <span class="emoji">☢️</span>
 
-Cons:
-- Complicated to implement right.
-- Doesn't work well when the vendored package is part of your public interface.
-- Tooling support is very weak.
+<div class="procon-container">
+<div class="pro-or-con-div">
+<h4 class="pro-header">Pros:</h4>
+<ul>
+    <li>Relatively easy to implement in some systems.</li>
+    <li>Tools exist for this.</li>
+</ul>
+</div>
 
-## Maintaining a fork ☢️
-
-Pros:
-- Relatively easy to implement in some systems.
-- Tools exist for this.
-
-Cons:
-- Upstream may not evolve in the same direction as your fork.
-- Adds friction with upgrades.
-- Compatibility becomes a bigger issue the longer it lasts.
+<div class="pro-or-con-div">
+<h4 class="con-header">Cons:</h4>
+<ul>
+    <li>Upstream doesn't know about your fork!</li>
+    <li>Adds friction with upgrades.</li>
+    <li>Compatibility degrades over time.</li>
+</ul>
+</div>
+</div>
 
 					</script>
 				</section>

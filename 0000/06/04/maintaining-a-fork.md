@@ -64,58 +64,60 @@ prepare() {
 --
 
 # Using `quilt`: Creating new patches
+<!-- .slide: class="not-centered" -->
 
 1. `cd` to the directory you are going to modify and use `quilt new` to create a patch
 
-```bash
-$ cd /tmp/attrs-20.2.0
-$ quilt new keywords.patch
-Patch patches/keywords.patch is now on top
-```
+    ```bash
+    $ cd /tmp/attrs-20.2.0
+    $ quilt new keywords.patch
+    Patch patches/keywords.patch is now on top
+    ```
 
 2. Add any files you want to change to the patch using `quilt add` or `quilt edit`
 
-```bash
-$ quilt add setup.py
-File setup.py added to patch patches/keywords.patch
-```
+    ```bash
+    $ quilt add setup.py
+    File setup.py added to patch patches/keywords.patch
+    ```
 
 3. Make the changes you care about:
 
-```bash
-$ sed -i 's/KEYWORDS =.*$/KEYWORDS = []/' setup.py
-```
+    ```bash
+    $ sed -i 's/KEYWORDS =.*$/KEYWORDS = []/' setup.py
+    ```
 
 4. Type `quilt refresh` to generate patches.
 
-```diff
-$ quilt refresh
-Refreshed patch patches/keywords.patch
-$ cat patches/keywords.patch
-Index: attrs-20.2.0/setup.py
-===================================================================
---- attrs-20.2.0.orig/setup.py
-\+++ attrs-20.2.0/setup.py
-@@ -10,7 +10,7 @@ from setuptools import find_packages, se
- NAME = "attrs"
- PACKAGES = find_packages(where="src")
- META_PATH = os.path.join("src", "attr", "__init__.py")
--KEYWORDS = ["class", "attribute", "boilerplate"]
-\+KEYWORDS = []
- PROJECT_URLS = {
-     "Documentation": "https://www.attrs.org/",
-     "Bug Tracker": "https://github.com/python-attrs/attrs/issues",
-```
+    ```diff
+    $ quilt refresh
+    Refreshed patch patches/keywords.patch
+    $ cat patches/keywords.patch
+    Index: attrs-20.2.0/setup.py
+    ===================================================================
+    --- attrs-20.2.0.orig/setup.py
+    \+++ attrs-20.2.0/setup.py
+    @@ -10,7 +10,7 @@ from setuptools import find_packages, se
+     NAME = "attrs"
+     PACKAGES = find_packages(where="src")
+     META_PATH = os.path.join("src", "attr", "__init__.py")
+    -KEYWORDS = ["class", "attribute", "boilerplate"]
+    \+KEYWORDS = []
+     PROJECT_URLS = {
+         "Documentation": "https://www.attrs.org/",
+         "Bug Tracker": "https://github.com/python-attrs/attrs/issues",
+    ```
 
-https://raphaelhertzog.com/go/quilt
+More details: https://raphaelhertzog.com/go/quilt
 
 --
 
 # Using `quilt`: Applying patches
+<br/>
 
-- Given an unpatched source code with a `patches/` directory, use `quilt push -a` to apply all patches (or `quilt push` to do them one at a time).
-- If you have a series of patches applied, use `quilt pop` to undo the patch at the top of the stack. (Or `quilt pop -a` to undo all patches).
-- To import an existing patch into a given directory, use `quilt import path/to/patch`.
+- Given an unpatched source code with a `patches/` directory, use `quilt push -a` to apply all patches (or `quilt push` to do them one at a time).<br/><br/>
+- If you have a series of patches applied, use `quilt pop` to undo the patch at the top of the stack. (Or `quilt pop -a` to undo all patches).<br/><br/>
+- To import an existing patch into a given directory, use `quilt import path/to/patch`.<br/><br/>
 
 For more details, refer to https://raphaelhertzog.com/go/quilt
 
@@ -123,23 +125,25 @@ For more details, refer to https://raphaelhertzog.com/go/quilt
 
 # Downsides
 
-- You are maintaining a fork that upstream doesn't know about.
-- Updating all your patches adds friction to the upgrade process.
-- No guarantees of compatibility.
+- You are maintaining a fork that upstream doesn't know about.<br/><br/>
+- Updating all your patches adds friction to the upgrade process.<br/><br/>
+- No guarantees of compatibility.<br/><br/>
 
 --
 
 # Real-life Examples
 
-- Nearly every Linux distro, either heavily (e.g. Debian) or lightly (e.g. Arch)
-- `conda` and `conda-forge` packages
-- Most big companies
+- Nearly every Linux distro, either heavily (e.g. Debian) or lightly (e.g. Arch).<br/><br/>
+- `conda` and `conda-forge` packages.<br/><br/>
+- Most big companies.<br/><br/>
 
-## Success story
+## <!-- .element class="fragment" data-fragment-index="0" --> Success story
 
 <img
     src="images/attrs-zope.png"
     alt="A Github PR making zope a semi-optional test dependency for attrs"
+    class="fragment"
+    data-fragment-index="0"
     />
 
 Notes:

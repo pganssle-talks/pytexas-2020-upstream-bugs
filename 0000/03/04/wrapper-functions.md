@@ -64,6 +64,7 @@ You can say that you'll eventually go remove all the hacks, but just in case, yo
 --
 
 # Opportunistic upgrading
+<br/><br/>
 
 ```python
 def dataframe_agg(df, func, axis=0, *args, **kwargs):
@@ -87,7 +88,7 @@ Hack is only triggered if you otherwise would have triggered the bug!
 --
 
 # Opportunistic upgrading
-
+<br/>
 ## By feature detection
 ```python
 import functools
@@ -137,6 +138,7 @@ Pros for feature detection:
 --
 
 # Opportunistic upgrading at import time
+<br/>
 
 ```python
 if _has_pandas_bug():
@@ -167,11 +169,20 @@ print(dataframe_agg(df, f, 1, 3))
 
 1. `six`: Pretty much all wrapper functions to write code that works with Python 2 and 3.
 
-<img
+    <img
     src="images/six-top-10.png"
     alt="An image from pypistats.org showing Most Downloaded PyPI Packages. urllib3 is first with 3.2M/day and six is second with 2.9M/day."
+    style="display:block; margin-left: auto; margin-right: auto;"
 />
 
-2. [`pytz-deprecation-shim`](https://pytz-deprecation-shim.readthedocs.io/en/latest/): Wrapper classes that mimic `pytz`'s interface but use `zoneinfo` and `dateutil` under the hood, for helping to migrate off `pytz`.
+2. [`pytz-deprecation-shim`](https://pytz-deprecation-shim.readthedocs.io/en/latest/)
+    - Wrapper classes that mimic `pytz`'s interface
+    - Uses `zoneinfo` and `dateutil` under the hood
+    - No `pytz` dependency!
+    - For helping to migrate off `pytz`.
+    <br/>
+    <br/>
 
-3. Feature backports like `importlib_resources` and most things in the `backports` namespace.
+3. Feature backports
+    - `importlib_resources`
+    - Most things in the `backports` namespace.

@@ -119,6 +119,7 @@ body {
   letter-spacing: normal;
   text-transform: none;
   text-shadow: none;
+  text-align: center;
   word-wrap: break-word; }
 
 .reveal h1 {
@@ -433,7 +434,7 @@ img#ghscreenshot {
   padding: 0px 25px;
 }
 
-ul {
+ol, ul {
     width: 95%;
 }
 
@@ -457,6 +458,14 @@ div.output_area {
 div.output_subarea {
   padding: 0px;
   max-width: 100%;
+}
+
+/*#################################
+ * Useful classes
+ */
+
+.not-centered {
+    text-align: left;
 }
 
 /*##################################
@@ -517,4 +526,8 @@ img.sbitem {
 code.lang-C {
     font-size: 0.8em;
     line-height: normal;
+}
+
+.emoji {
+    font-family: Noto Color Emoji !important;
 }

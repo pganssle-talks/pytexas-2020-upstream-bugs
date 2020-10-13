@@ -12,9 +12,9 @@ Paul Ganssle
 <br/>
 <span style="font-size: 1em;"><em>This talk on Github:
 <a href="https://github.com/pganssle-talks/pytexas-2020-upstream-bugs">pganssle-talks/pytexas-2020-upstream-bugs</a></em>
-</span>
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-    <img src="external-images/logos/cc-by.svg" height="45px">
+</span><br/>
+<a rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/">
+    <img src="external-images/logos/cc-zero.svg" height="45px">
 </a>
 <br/>
 
@@ -26,18 +26,16 @@ So good to be here in beautiful *checks notes* Austin, Texas!
 
 --
 
-<span style="font-size: 1em;"><em>⚠️ Warning ⚠️</em></span>
+<h1><span class="emoji">⚠️</span> Warning <span class="emoji">⚠️</span></h1>
 
 <img id="splash"
      src="images/nails-scaled.jpg"
      alt="A nail partially driven into a piece of wood"
-     style="max-height: 300px"
-     />
-
-<img id="splash"
+     style="max-height: 300px; margin-bottom:0px; margin-top:0px"
+     /><br/><img id="splash"
      src="images/hammerlike-scaled.jpg"
      alt="A series of decreasingly hammer-like objects: A hammer, an axe, a bottle of maple syrup and a can of butane fuel."
-     style="max-height: 550px"
+     style="max-height: 550px; margin-top: 0px; margin-bottom: 0px"
      />
 
 
