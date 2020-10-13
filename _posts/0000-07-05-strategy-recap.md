@@ -24,7 +24,7 @@ div.pro-or-con-div {
 }
 </style>
 
-## Patching upstream 💖
+## Patching upstream <span class="emoji">💖</span>
 
 <div class="procon-container">
 <div class="pro-or-con-div">
@@ -47,7 +47,7 @@ div.pro-or-con-div {
 
 <br/><br/>
 
-## Wrapper functions 🆗
+## Wrapper functions <span class="emoji">🆗</span>
 
 <div class="procon-container">
 <div class="pro-or-con-div">
@@ -69,7 +69,7 @@ div.pro-or-con-div {
 
 --
 
-## Monkey patching 🙈
+## Monkey patching <span class="emoji">🙈</span>
 
 <div class="procon-container">
 <div class="pro-or-con-div">
@@ -89,7 +89,7 @@ div.pro-or-con-div {
 </div>
 </div>
 
-## Vendoring ☣️
+## Vendoring <span class="emoji">☣️</span>
 
 <div class="procon-container">
 <div class="pro-or-con-div">
@@ -110,7 +110,7 @@ div.pro-or-con-div {
 </div>
 </div>
 
-## Maintaining a fork ☢️
+## Maintaining a fork <span class="emoji">☢️</span>
 
 <div class="procon-container">
 <div class="pro-or-con-div">

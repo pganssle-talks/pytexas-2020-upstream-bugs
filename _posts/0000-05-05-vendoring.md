@@ -132,13 +132,13 @@ Solving this may require one of:
 - This talk!
     - `reveal.js` and `jekyll-revealjs` are vendored into the source.
     <span class="disappearing-fragment fragment fade-out" data-fragment-index="0"><br/><br/></span>
-    - <!-- .element class="nospace-fragment fragment" data-fragment-index="0" --> `jekyll-reveal` even carries a patch! 🤦<br/><br/>
+    - <!-- .element class="nospace-fragment fragment" data-fragment-index="0" --> `jekyll-reveal` even carries a patch! <span class="emoji">🤦</span><br/><br/>
 - `pip` and `setuptools` vendor all their dependencies to avoid bootstrapping issues.
     - Both have a "no patches in tree" policy.
     - Manipulates namespace resolution to get name resolution to work.<br/><br/>
 
 - `invoke` vendors all its dependencies (including separate Python 2 and 3 trees for `pyyaml`)
-    - No dependencies have been updated in >= 4 years ☹
+    - No dependencies have been updated in >= 4 years <span class="emoji">☹</span>
 
 Notes:
 
