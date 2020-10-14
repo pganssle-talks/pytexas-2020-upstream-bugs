@@ -54,8 +54,8 @@ setuptools/_vendor/
 
 # How to vendor a package
 <br/>
-1. Copy the source code into your project tree somewhere (e.g. under `_vendored`).
-2. Change references from `the_package` to `my_project._vendored.the_package`.
+1. Copy the source code into your project tree somewhere (e.g. under `myproject._vendored`).
+2. Update references: `squalene` → `myproject._vendored.squalene`
 3. Apply any patches to your local copy. <!-- .element class="fragment" data-fragment-index="0" -->
 
 <br/>
