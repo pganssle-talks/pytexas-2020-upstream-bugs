@@ -67,7 +67,7 @@ setuptools/_vendor/
 
 --
 
-<!-- .slide: class="not-centered" -->
+<!-- .slide: class="not-centered" data-visibility="hidden" -->
 # Maintaining the source code
 <br/>
 <br/>
