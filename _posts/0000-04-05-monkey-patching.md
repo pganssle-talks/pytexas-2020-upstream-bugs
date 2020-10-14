@@ -51,13 +51,14 @@ import pandas as pd
 
 
 if _has_pandas_bug():
+    _df_agg = pd.DataFrame.agg
     @wraps(pd.DataFrame.agg)
     def dataframe_agg(df, func, axis=0, *args, **kwargs):
         if args:
             def bound_func(x, **kwargs):
                 return func(x, *args, **kwargs)
             func = bound_func
-        return df.agg(func, axis=axis, **kwargs)
+        return _df_agg(df, func, axis=axis, **kwargs)
 
     pd.DataFrame.agg = dataframe_agg
 ```
