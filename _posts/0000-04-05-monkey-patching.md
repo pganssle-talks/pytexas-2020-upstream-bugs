@@ -7,6 +7,13 @@
     style="max-height:800px"
 />
 
+Notes:
+
+So, let's get into the next strategy, and this is where we start getting into properly dangerous and hacky territory. This strategy is Monkey Patching.
+
+S: 10s
+T: 12:40
+
 --
 
 # Intro to Monkey Patching
@@ -40,6 +47,17 @@ Affects anyone using the namespace:
 {768614336404564687, 1537228672809129264}
 ```
 
+Notes:
+
+So what is monkey patching? The idea behind monkey patching is that most modules and classes in Python are mutable and live in a global namespace, so you can actually just dynamically modify code that you want to patch at runtime.
+
+Here's an example where we decide that the `abs` function is a bit stodgy, and so we're going to make it embrace chaos by making it return a negative number 20% of the time. We accomplish this by defining our own version of `abs` and then assigning dunder-builtins dot abs to the function we want to patch in, at which point calling `abs` sometimes returns negative numbers.
+
+This works locally but also globally for anyone using the namespace or module we've patched. Evidently the `hash` function of the `Fraction` class uses `abs` somewhere, so you can see that it's being affected by our patched `abs` function.
+
+S: 1m10s
+T: 13:50
+
 --
 
 # How does this help us?
@@ -69,6 +87,17 @@ if _has_pandas_bug():
 - May fix the issue in *other* code you don't control.
 <br/>
 
+Notes:
+
+So, how does this help us? Obviously it's cool that we can break the hash of fraction objects, but how does that help us fix bugs?
+
+Well, looking back at our `pandas` example, we could implement our wrapper instead like this — detect that we are affected by the bug, and if so modify `DataFrame` so that the `agg` method calls our function, rather than changing all the call sites.
+
+This also can fix the issue globally and transparently. Rather than having to change all the code in your application to use wrapper functions, you can just directly fix the method that's causing you problems, and then remove the monkey patch when the bug is fixed. This will also fix the bug for everyone in your current runtime as well, including other code you don't control.
+
+S: 1m
+T: 14:50
+
 --
 
 # Why is this a terrible idea?
@@ -82,7 +111,12 @@ if _has_pandas_bug():
 
 - Action at a distance.
 - No one else is expecting you to do this.
-- No way to make this thread-safe.
+- Often tightly coupled to implementation details.
+
+Notes:
+
+S: 1m
+T: 15:50
 
 --
 
@@ -133,6 +167,11 @@ print(pimodule2.pi_over_2())  # 1.5
 
 Mind your namespaces!
 
+Notes:
+
+S: 1m40s
+T: 17:30
+
 --
 
 # Scope as tightly as possible
@@ -166,6 +205,13 @@ def f():
 def affected_function():
     ...
 ```
+
+Notes:
+
+One tool that might can be useful for keeping the scope of your patches tight is that if you only want them applied while your specific code is running, you can use `contextlib.contextmanager` to easily create a context manager. You write a little function that applies and then removes the monkey patch, then decorate it with `contextlib.contextmanager` and the function will return an object that can either be used as a context manager or a decorator.
+
+S: 30s
+T: 18:00
 
 --
 
@@ -203,3 +249,8 @@ def patch_all():
 <br/>
 
 _**Take Heed:** This was expedient at the time, but `setuptools` has been working to unravel this for years._
+
+Notes:
+
+S: 1m
+T: 19:00

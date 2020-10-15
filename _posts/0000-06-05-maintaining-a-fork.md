@@ -9,17 +9,19 @@
 
 Notes:
 
-The last option should be deploying and maintaining a patched version of the library in your production distribution. The difference with vendoring is that this is global; rather than using an unmodified version of the upstream, you put your patched version into your production pipeline.
+The last option should be deploying and maintaining a patched version of the library in your production distribution. The difference with vendoring is that this is global; rather than using an unmodified version of the upstream, you put your patched version into your production pipeline. Whether that's some linux-like distribution system, a monorepo, your own mirror of PyPI, etc.
 
 Unfortunately, in my experience, people often take this as their _first_ option, because just patching your local version is relatively easy to do, and the cost only comes later.
 
-Of course, people don't think of this as maintaining a fork, they just think that they are patching their local version, but this has nearly all the same downsides as forking an upstream project.
+S: 1m
+T: 25:15
 
 --
 
 # Accomplishing this: distros / monorepos
 
-- Mostly accomplished with `.patch` files or `make` rules.
+- Mostly accomplished with `.patch` files.
+- These can be managed by `quilt`, see: https://raphaelhertzog.com/go/quilt
 <br/>
 
 ```diff
@@ -48,7 +50,7 @@ index f71488c..f75c093 100644
 ```
 <br/>
 <div class="fragment" data-fragment-index="0">
-<ul><li>Can also accomplish this with <tt>sed</tt> in simple cases:</li></ul>
+<ul><li>Can also accomplish this with <tt>sed</tt> or other scripts in simple cases:</li></ul>
 </div>
 
 ```bash
@@ -61,65 +63,16 @@ prepare() {
 ```
 <!-- .element class="fragment" data-fragment-index="0" -->
 
---
+Notes:
 
-# Using `quilt`: Creating new patches
-<!-- .slide: class="not-centered" -->
+So if you want to accomplish this, mostly I've seen this done using patch files, where you store the original code as a tarball and a series of diffs for how it needs to change. This way you have a clean record of everything you've changed, and to the extent that they still cleanly apply, you can also easily re-apply the changes when you upgrade to a new version.
 
-1. `cd` to the directory you are going to modify and use `quilt new` to create a patch
+A lot of people use this software called `quilt` for generating and managing those patches. I don't really have time to go into it, but this link does a good job of explaining how it works and the basics of how to use it better than I could in 30 seconds anyway.
 
-    ```bash
-    $ cd /tmp/attrs-20.2.0
-    $ quilt new keywords.patch
-    Patch patches/keywords.patch is now on top
-    ```
+In some simple cases — and obviously we want to keep our patches as simple as possible — you can even use something like `sed` to just do a search-and-replace at build time. This seems to be a fairly common idiom in Arch Linux packages, where they have a strong policy against extensive patching, and tend to have much simpler patches.
 
-2. Add any files you want to change to the patch using `quilt add` or `quilt edit`
-
-    ```bash
-    $ quilt add setup.py
-    File setup.py added to patch patches/keywords.patch
-    ```
-
-3. Make the changes you care about:
-
-    ```bash
-    $ sed -i 's/KEYWORDS =.*$/KEYWORDS = []/' setup.py
-    ```
-
-4. Type `quilt refresh` to generate patches.
-
-    ```diff
-    $ quilt refresh
-    Refreshed patch patches/keywords.patch
-    $ cat patches/keywords.patch
-    Index: attrs-20.2.0/setup.py
-    ===================================================================
-    --- attrs-20.2.0.orig/setup.py
-    \+++ attrs-20.2.0/setup.py
-    @@ -10,7 +10,7 @@ from setuptools import find_packages, se
-     NAME = "attrs"
-     PACKAGES = find_packages(where="src")
-     META_PATH = os.path.join("src", "attr", "__init__.py")
-    -KEYWORDS = ["class", "attribute", "boilerplate"]
-    \+KEYWORDS = []
-     PROJECT_URLS = {
-         "Documentation": "https://www.attrs.org/",
-         "Bug Tracker": "https://github.com/python-attrs/attrs/issues",
-    ```
-
-More details: https://raphaelhertzog.com/go/quilt
-
---
-
-# Using `quilt`: Applying patches
-<br/>
-
-- Given an unpatched source code with a `patches/` directory, use `quilt push -a` to apply all patches (or `quilt push` to do them one at a time).<br/><br/>
-- If you have a series of patches applied, use `quilt pop` to undo the patch at the top of the stack. (Or `quilt pop -a` to undo all patches).<br/><br/>
-- To import an existing patch into a given directory, use `quilt import path/to/patch`.<br/><br/>
-
-For more details, refer to https://raphaelhertzog.com/go/quilt
+S: 1m15s
+T: 26:30
 
 --
 
@@ -128,6 +81,15 @@ For more details, refer to https://raphaelhertzog.com/go/quilt
 - You are maintaining a fork that upstream doesn't know about.<br/><br/>
 - Updating all your patches adds friction to the upgrade process.<br/><br/>
 - No guarantees of compatibility.<br/><br/>
+
+Notes:
+
+So with that we're back to talking about how this is a bad idea. While this is method is appealing because it's pretty easy to implement and there are tools available to help you do it, the big problems come when you have to carry these patches over a long period of time.
+
+You end up maintaining a fork that upstream doesn't know about, so they may move in another direction that is incompatible with your patch. Each patch adds some friction to your upgrade process, as you have to reconcile your changes with upstream, and you may find that other people in your organization have come to rely on changes you made that are incompatible with newer versions of the software.
+
+S: 1m
+T: 27:30
 
 --
 
@@ -148,4 +110,9 @@ For more details, refer to https://raphaelhertzog.com/go/quilt
 
 Notes:
 
+I hardly have to mention real life examples, because this sort of thing is pretty commonly done. Various organizations are more or less willing to maintain their own flavor of open source software, and it's very common to have something like this in big companies.
+
 At work I've been trying to keep `attrs` up-to-date, but it carried a few patches that were a bit annoying to fix every time. Nothing major, but I was able to get most of them removed except one where we disabled all `zope`-related tests because we don't use `zope` and packaging `zope` just to test that `attrs` works with `zope` would be ridiculous. I made a PR adding a mechanism for disabling `zope` directly in `attrs`'s test suite and to my surprise Hynek accepted it, so I was able to remove my last `attrs` patch!
+
+S: 1m30s
+T: 29:00
