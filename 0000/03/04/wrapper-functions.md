@@ -18,6 +18,15 @@ print(df.agg(f, 0, a=3))
 - The workaround is very simple
 - You are indifferent between the bug-triggering and workaround code.
 
+Notes:
+
+The first step is to try to introduce a workaround. In this case, we can work around the bug pretty trivially here by passing the argument by keyword rather than position, so I add a little TODO comment indicating why I chose to write the code this way, and move on.
+
+This sort of thing works just fine when you only hit the bug in one place and the workaround is very simple. It's also very reasonable if you are indifferent between the version that triggers the code and the version that doesn't — in this case I don't have any particular preference for positional arguments, so it's not a big deal to switch this permanently.
+
+S: 1m15s
+T: 6:30
+
 --
 
 # Wrapper functions
@@ -46,6 +55,15 @@ print(dataframe_agg(df, f, 1, 3))
 - Encapsulates complicated workaround logic.
 - Provides an easy target for later removal.
 
+Notes:
+
+If the workaround is a little complicated or you hit it a bunch of places, it may make sense to use a wrapper function. Going back to our pandas example, I've written a little wrapper function that just binds the positional arguments to the function before it's passed to the `agg` function, so that no positional arguments ever have to be passed through `agg`.
+
+I wrap that up in a function called `dataframe_agg` and then I can switch over all my afflicted call sites over to using the wrapper where the bug is fixed. This is nice because it encapsulates the workaround logic, and also because when it's time to actually fix the bug it's a fairly simple search and replace to restore the original code.
+
+S: 1m30s
+T: 8:00
+
 --
 
 # Wrapper functions: Opportunistic upgrading
@@ -59,7 +77,10 @@ print(dataframe_agg(df, f, 1, 3))
 
 Notes:
 
-You can say that you'll eventually go remove all the hacks, but just in case, you can try to minimize the scope of your hack by building in an expiration for the hack; if possible, you can detect at runtime whether the hack is needed, and apply if and only if you do.
+Of course, you can say that you'll eventually go remove all the hacks, but just in case, you can try to minimize the scope of your hack by building in an expiration; if possible, you can detect at runtime whether the hack is needed, and apply it if and only if you do! This is something I'm calling opportunistic upgrading, and it gets more and more useful as the fixes get more and more hacky.
+
+S: 30s
+T: 8:30
 
 --
 
@@ -84,6 +105,13 @@ def dataframe_agg(df, func, axis=0, *args, **kwargs):
 <br/>
 
 Hack is only triggered if you otherwise would have triggered the bug!
+
+Notes:
+
+The way it works is that you do something that detects whether or not the environment that is currently running is affected by the bug, and skip the workaround if you're not. So, looking back at our original wrapper function, we just have to add this `_has_pandas_bug()` function, and the hack is only executed if the bug otherwise would have been triggered!
+
+S: 45s
+T: 9:15
 
 --
 
@@ -126,14 +154,17 @@ def _has_pandas_bug():
 
 Notes:
 
-Pros for version-based:
-- Works even when the bug is hard to detect, like if it's expensive to realize you've triggered the bug: e.g. a memory leak, or something that triggers a segfault.
-- Relatively simple to implement.
-
 Pros for feature detection:
 - Doesn't require knowledge of exactly which versions are affected.
 - Accurate version may not be available at runtime in all situations.
 - The bug may be simple to check for, but difficult to describe in terms of versions and platforms.
+
+Pros for version-based:
+- Works even when the bug is hard to detect, like if it's expensive to realize you've triggered the bug: e.g. a memory leak, or something that triggers a segfault.
+- Relatively simple to implement.
+
+S: 1m45s
+T: 11:00
 
 --
 
@@ -163,6 +194,15 @@ else:
 print(dataframe_agg(df, f, 1, 3))
 ```
 
+Notes:
+
+You can also take this one step further and resolve whether or not you need a wrapper method at all at import time by defining the function conditionally.
+
+This can save you some overhead and really minimize the scope of your function, and I would tend to do it any time that checking for the existence of the bug is cheap and when it is ergonomic to do so.
+
+S: 1m
+T: 12:00
+
 --
 
 # Real-life Examples
@@ -186,3 +226,12 @@ print(dataframe_agg(df, f, 1, 3))
 3. Feature backports
     - `importlib_resources`
     - Most things in the `backports` namespace.
+
+Notes:
+
+Only mention `six`, leave the other two as bonus content.
+
+S: 30s
+T: 12:30
+
+**Switch camera during transition**
